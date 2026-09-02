@@ -1,4 +1,4 @@
-# ✈️ 机场过夜场地调研 Skill（airport-overnight-guide）
+# ✈️ 国内机场过夜住宿指南 Skill（airport-overnight-guide）
 
 一个通用的 AI Agent 自定义 Skill（适用于 [TRAE](https://www.trae.cn/) 等支持 Skill/规则加载的 AI 工具）：**输入任意全国机场名，自动全网调研该机场航站楼内的所有过夜场地，生成一份带场景图的分析表 HTML**。
 
