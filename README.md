@@ -1,6 +1,6 @@
 # ✈️ 机场过夜场地调研 Skill（airport-overnight-guide）
 
-一个 [TRAE](https://www.trae.cn/) 自定义 Skill：**输入任意全国机场名，自动全网调研该机场航站楼内的所有过夜场地，生成一份带场景图的分析表 HTML**。
+一个通用的 AI Agent 自定义 Skill（适用于 [TRAE](https://www.trae.cn/) 等支持 Skill/规则加载的 AI 工具）：**输入任意全国机场名，自动全网调研该机场航站楼内的所有过夜场地，生成一份带场景图的分析表 HTML**。
 
 > 适用场景：赶早班机、深夜落地、红眼航班中转——"这个机场哪里能过夜？"一句话搞定。
 
@@ -31,18 +31,46 @@
 - ✅ 北京大兴国际机场（PKX）
 - ✅ 广州白云国际机场（CAN）—— 捕捉到 T1 关闭改造、T2/T3 运营的最新变化
 
-## 安装使用（TRAE）
+## 安装使用（任意 AI Agent 通用）
 
-1. 把本仓库的 `SKILL.md` 和 `template.html` 放入项目的 `.trae/skills/airport-overnight-guide/` 目录：
+本 Skill 本质是两份文件：`SKILL.md`（工作流指令）+ `template.html`（输出模板）。把它喂给任何 AI Agent 即可使用。
 
-   ```
-   .trae/skills/airport-overnight-guide/
-   ├── SKILL.md          # Skill 定义：调研工作流 + 质量检查清单
-   └── template.html      # 输出模板：已确认的表格样式
-   ```
+### 安装（二选一）
 
-2. 重启 TRAE（或开启新会话），Skill 自动可用
-3. 直接说「查一下 XX 机场哪里能过夜」即可触发
+**方式 A · 放进 Agent 的 skill/规则目录**（适合支持自动加载的工具，如 TRAE）
+
+把仓库里的 `SKILL.md` 和 `template.html` 放入项目的 skill 目录，例如 TRAE 是：
+
+```
+<项目根目录>/.trae/skills/airport-overnight-guide/
+├── SKILL.md          # Skill 定义：调研工作流 + 质量检查清单
+└── template.html     # 输出模板：已确认的表格样式
+```
+
+重启工具或开启新会话，Skill 自动可用。
+
+**方式 B · 直接投喂**（适合任何对话式 AI，Claude / ChatGPT / Cursor / Claude Code 等）
+
+把 `SKILL.md` 全文作为指令粘贴或上传给 Agent，并在同一目录提供 `template.html`，告诉 Agent「按这份 SKILL.md 的流程执行」。
+
+### 使用
+
+装好后（或投喂后）对 Agent 说一句话即可触发：
+
+- 「查一下 XX 机场哪里能过夜」
+- 「按 airport-overnight-guide skill 调研天府机场」
+
+Agent 会自动走完：五档搜索 → 逐场地核实 → 生成场景图 → 套模板输出 HTML 分析表。
+
+### 能力要求
+
+| Agent 能力 | 是否必需 | 缺失时的表现 |
+|---|---|---|
+| 联网搜索 + 网页读取 | 必需 | 无法完成调研 |
+| 文件读写 | 必需 | 无法套用 template.html 产出成品 |
+| 图片生成 | 建议 | 环境列场景图环节会缺失 |
+
+TRAE 等 Agent 开发工具三项全具备，可完整跑通；纯对话式 AI 可用但产出会打折。
 
 ## 设计要点
 
